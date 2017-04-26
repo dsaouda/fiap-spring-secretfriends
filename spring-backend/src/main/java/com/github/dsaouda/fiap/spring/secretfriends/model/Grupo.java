@@ -13,6 +13,8 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 public class Grupo extends AbstractModel  {
 	
@@ -31,15 +33,18 @@ public class Grupo extends AbstractModel  {
 	@NotNull
 	@Column(nullable=false)
 	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date dataSorteio;
 	
 	@NotNull
 	@Column(nullable=false)
 	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date dataEvento;
 	
 	@Column(nullable=true)
 	private String observacoes;
+	
 	
 	@NotNull
 	@ManyToOne(fetch=FetchType.LAZY, optional=false)

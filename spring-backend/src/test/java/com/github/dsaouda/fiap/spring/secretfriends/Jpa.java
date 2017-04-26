@@ -4,7 +4,7 @@ import java.util.Date;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-
+/*
 import com.github.dsaouda.fiap.spring.secretfriends.dao.ConviteDao;
 import com.github.dsaouda.fiap.spring.secretfriends.dao.GrupoDao;
 import com.github.dsaouda.fiap.spring.secretfriends.dao.ParticipanteDao;
@@ -14,10 +14,12 @@ import com.github.dsaouda.fiap.spring.secretfriends.model.Convite;
 import com.github.dsaouda.fiap.spring.secretfriends.model.Grupo;
 import com.github.dsaouda.fiap.spring.secretfriends.model.Participante;
 import com.github.dsaouda.fiap.spring.secretfriends.model.Usuario;
+*/
 
 public class Jpa {
 	
 	public static void main(String[] args) {
+		/*
 		//SET FOREIGN_KEY_CHECKS=0;drop table Usuario; drop table Grupo; drop table Convite; drop table Participante;
 		EntityManager em = JpaUtil.getEntityManager();
 		
@@ -49,6 +51,7 @@ public class Jpa {
 		participanteDao.salvar(new Participante(u3, g));
 		
 		transaction.commit();
+		*/
 	}
 	
 }

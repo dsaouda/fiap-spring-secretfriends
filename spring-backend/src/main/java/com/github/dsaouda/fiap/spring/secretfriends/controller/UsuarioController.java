@@ -1,10 +1,8 @@
 package com.github.dsaouda.fiap.spring.secretfriends.controller;
 
-import java.util.List;
+import javax.transaction.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,72 +15,50 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.dsaouda.fiap.spring.secretfriends.dao.UsuarioDao;
-import com.github.dsaouda.fiap.spring.secretfriends.factory.JpaUtil;
 import com.github.dsaouda.fiap.spring.secretfriends.model.Usuario;
+import com.github.dsaouda.fiap.spring.secretfriends.repository.UsuarioRepository;
 
+@Transactional
 @RestController
 @RequestMapping("/v1/usuario")
 public class UsuarioController {
-
+	
+	@Autowired
+	UsuarioRepository repository;
+	
 	@GetMapping("/{uuid}")
-	public ResponseEntity<Usuario> get(@PathVariable("uuid") String uuid) {
-		EntityManager em = JpaUtil.getEntityManager();
-		
-		UsuarioDao dao = new UsuarioDao(em);
-		Usuario usuario = dao.buscarPorUUID(uuid);
-		
+	public ResponseEntity<Usuario> get(@PathVariable("uuid") String uuid) {		
+		Usuario usuario = repository.findByUuid(uuid);		
 		return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
 	}
 	
 	@GetMapping
-	public List<Usuario> getAll() {
-		EntityManager em = JpaUtil.getEntityManager();
-		UsuarioDao dao = new UsuarioDao(em);
-		List<Usuario> usuarios = dao.getList();
+	public Iterable<Usuario> getAll() {
+		Iterable<Usuario> usuarios = repository.findAll();		
 		return usuarios;
 	}
 	
 	@PostMapping
 	public ResponseEntity<Usuario> criar(@RequestBody Usuario usuario) {
-		EntityManager em = JpaUtil.getEntityManager();
-		EntityTransaction transaction = em.getTransaction();
-		transaction.begin();
-		
-		UsuarioDao dao = new UsuarioDao(em);
-		dao.salvar(usuario);
-		transaction.commit();
-		
+		repository.save(usuario);
 		return new ResponseEntity<Usuario>(usuario, HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/{uuid}")
 	public Usuario update(@PathVariable String uuid, @RequestBody Usuario novoUsuario) {
-		EntityManager em = JpaUtil.getEntityManager();
-		EntityTransaction transaction = em.getTransaction();
-		transaction.begin();
-		
-		UsuarioDao dao = new UsuarioDao(em);
-		Usuario usuarioAntigo = dao.buscarPorUUID(uuid);
+		Usuario usuarioAntigo = repository.findByUuid(uuid);
 		
 		novoUsuario.setId(usuarioAntigo.getId());
 		novoUsuario.setUuid(usuarioAntigo.getUuid());
 		
-		dao.merge(novoUsuario);
-		transaction.commit();
-		
+		repository.save(novoUsuario);
 		
 		return novoUsuario;
 	}
 	
 	@PatchMapping("/{uuid}")
 	public Usuario updateParcial(@PathVariable String uuid, @RequestBody Usuario novosDados) {
-		EntityManager em = JpaUtil.getEntityManager();
-		EntityTransaction transaction = em.getTransaction();
-		transaction.begin();
-		
-		UsuarioDao dao = new UsuarioDao(em);
-		Usuario usuario = dao.buscarPorUUID(uuid);
+		Usuario usuario = repository.findByUuid(uuid);
 		
 		if (novosDados.getNome() != null && !novosDados.getNome().trim().isEmpty()) {
 			usuario.setNome(novosDados.getNome());
@@ -92,25 +68,12 @@ public class UsuarioController {
 			usuario.setSenha(novosDados.getSenha());
 		}
 		
-		dao.salvar(usuario);
-		transaction.commit();
-		
-		
-		return usuario;
+		return repository.save(usuario);
 	}
 	
 	@DeleteMapping("/{uuid}")
 	public ResponseEntity<Object> delete(@PathVariable String uuid) {
-		EntityManager em = JpaUtil.getEntityManager();
-		EntityTransaction transaction = em.getTransaction();
-		transaction.begin();
-		
-		UsuarioDao dao = new UsuarioDao(em);
-		Usuario usuario = dao.buscarPorUUID(uuid);
-		
-		dao.delete(usuario);
-		transaction.commit();
-		
+		repository.deleteByUuid(uuid);
 		return new ResponseEntity<Object>(new Object(), HttpStatus.OK);
 	}
 	
