@@ -45,9 +45,12 @@ public class GrupoController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Grupo> criar(@RequestBody Grupo grupo) {
-		repository.save(grupo);
-		return new ResponseEntity<Grupo>(grupo, HttpStatus.CREATED);
+	public ResponseEntity<Grupo> criar(@RequestBody Grupo grupo) {		
+		
+		return new ResponseEntity<Grupo>(
+			service.criar(grupo), HttpStatus.CREATED
+		);
+		
 	}
 	
 	@PutMapping("/{uuid}")
