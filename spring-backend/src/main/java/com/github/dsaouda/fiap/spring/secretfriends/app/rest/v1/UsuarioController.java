@@ -1,4 +1,4 @@
-package com.github.dsaouda.fiap.spring.secretfriends.app.rest;
+package com.github.dsaouda.fiap.spring.secretfriends.app.rest.v1;
 
 import javax.transaction.Transactional;
 
