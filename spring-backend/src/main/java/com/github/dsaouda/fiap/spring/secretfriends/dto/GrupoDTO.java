@@ -1,27 +1,26 @@
-package com.github.dsaouda.fiap.spring.secretfriends.response;
+package com.github.dsaouda.fiap.spring.secretfriends.dto;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import com.github.dsaouda.fiap.spring.secretfriends.model.Grupo;
 
-public class GrupoJson {
+public class GrupoDTO {
 	private Grupo grupo;
 	
-	public GrupoJson(Grupo grupo) {
+	public GrupoDTO(Grupo grupo) {
 		this.grupo = grupo;
 	}
 	
-	public static List<GrupoJson> convert(Iterable<Grupo> grupos) {
-		List<GrupoJson> gruposJson = new ArrayList<>();
-		
-		grupos.forEach(g -> {
-			gruposJson.add(new GrupoJson(g));
-		});
-		
-		return gruposJson;
+	public static List<GrupoDTO> toDTO(Iterable<Grupo> grupos) {
+		return StreamSupport.stream(grupos.spliterator(), false)
+        	.map((g) -> new GrupoDTO(g))
+        	.collect(Collectors.toList());
 	}
 	
 	public String getUuid() {
@@ -52,11 +51,14 @@ public class GrupoJson {
 		return grupo.getObservacoes();
 	}
 
-	public String getAdministrador() {
-		return grupo.getAdministrador().getUuid();
+	public Map<String, String> getAdministrador() {
+		HashMap<String, String> usuario = new HashMap<>();
+		usuario.put("uuid", grupo.getAdministrador().getUuid());
+		usuario.put("nome", grupo.getAdministrador().getNome());
+		
+		return usuario;
 	}
 	
-	public String getAdministradorNome() {
-		return grupo.getAdministrador().getNome();
-	}	
+
+
 }

@@ -1,4 +1,4 @@
-package com.github.dsaouda.fiap.spring.secretfriends.controller;
+package com.github.dsaouda.fiap.spring.secretfriends.app.web;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.github.dsaouda.fiap.spring.secretfriends.controller;
+package com.github.dsaouda.fiap.spring.secretfriends.app.rest;
 
 import javax.transaction.Transactional;
 
@@ -20,7 +20,7 @@ import com.github.dsaouda.fiap.spring.secretfriends.repository.UsuarioRepository
 
 @Transactional
 @RestController
-@RequestMapping("/v1/usuario")
+@RequestMapping("/rest/v1/usuario")
 public class UsuarioController {
 	
 	@Autowired

@@ -1,4 +1,4 @@
-package com.github.dsaouda.fiap.spring.secretfriends.controller;
+package com.github.dsaouda.fiap.spring.secretfriends.app.rest;
 
 import java.util.List;
 
@@ -17,17 +17,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.dsaouda.fiap.spring.secretfriends.dto.GrupoDTO;
 import com.github.dsaouda.fiap.spring.secretfriends.model.Grupo;
 import com.github.dsaouda.fiap.spring.secretfriends.repository.GrupoRepository;
-import com.github.dsaouda.fiap.spring.secretfriends.response.GrupoJson;
+import com.github.dsaouda.fiap.spring.secretfriends.service.GrupoService;
 
 @Transactional
 @RestController
-@RequestMapping("/v1/grupo")
+@RequestMapping("/api/rest/v1/grupo")
 public class GrupoController {
 
 	@Autowired
 	GrupoRepository repository;
+	
+	@Autowired
+	GrupoService service;
 	
 	@GetMapping("/{uuid}")
 	public ResponseEntity<Grupo> get(@PathVariable("uuid") String uuid) {		
@@ -36,10 +40,8 @@ public class GrupoController {
 	}
 	
 	@GetMapping
-	public List<GrupoJson> getAll() {
-		Iterable<Grupo> grupos = repository.findAll();
-		List<GrupoJson> json = GrupoJson.convert(grupos);		
-		return json;
+	public List<GrupoDTO> getAll() {
+		return service.getAll();
 	}
 	
 	@PostMapping
