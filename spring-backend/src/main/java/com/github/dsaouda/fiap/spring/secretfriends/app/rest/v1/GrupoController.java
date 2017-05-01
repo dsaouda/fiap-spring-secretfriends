@@ -2,11 +2,13 @@ package com.github.dsaouda.fiap.spring.secretfriends.app.rest.v1;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -19,12 +21,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.dsaouda.fiap.spring.secretfriends.dto.GrupoDTO;
 import com.github.dsaouda.fiap.spring.secretfriends.model.Grupo;
+import com.github.dsaouda.fiap.spring.secretfriends.model.Usuario;
 import com.github.dsaouda.fiap.spring.secretfriends.repository.GrupoRepository;
+import com.github.dsaouda.fiap.spring.secretfriends.repository.UsuarioRepository;
+import com.github.dsaouda.fiap.spring.secretfriends.response.Response;
 import com.github.dsaouda.fiap.spring.secretfriends.service.GrupoService;
+import com.github.dsaouda.fiap.spring.secretfriends.session.UsuarioSession;
+import com.github.dsaouda.fiap.spring.secretfriends.validator.SimpleValidation;
 
+@CrossOrigin
 @Transactional
 @RestController
-@RequestMapping("/api/rest/v1/grupo")
+@RequestMapping("/rest/v1/grupo")
 public class GrupoController {
 
 	@Autowired
@@ -32,6 +40,9 @@ public class GrupoController {
 	
 	@Autowired
 	GrupoService service;
+	
+	@Autowired
+	UsuarioSession usuarioSession;
 	
 	@GetMapping("/{uuid}")
 	public ResponseEntity<Grupo> get(@PathVariable("uuid") String uuid) {		
@@ -45,12 +56,8 @@ public class GrupoController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Grupo> criar(@RequestBody Grupo grupo) {		
-		
-		return new ResponseEntity<Grupo>(
-			service.criar(grupo), HttpStatus.CREATED
-		);
-		
+	public ResponseEntity<?> criar(@RequestBody Grupo grupo) {
+		return service.criar(grupo, usuarioSession.getUsuario());
 	}
 	
 	@PutMapping("/{uuid}")

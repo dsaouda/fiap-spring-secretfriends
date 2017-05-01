@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.github.dsaouda.fiap.spring.secretfriends.model.Grupo;
 
 public class GrupoDTO {
@@ -39,10 +40,12 @@ public class GrupoDTO {
 		return grupo.getLocalEvento();
 	}
 
+	@JsonFormat(pattern="yyyy-MM-dd")
 	public Date getDataSorteio() {
 		return grupo.getDataSorteio();
 	}
 
+	@JsonFormat(pattern="yyyy-MM-dd")
 	public Date getDataEvento() {
 		return grupo.getDataEvento();
 	}

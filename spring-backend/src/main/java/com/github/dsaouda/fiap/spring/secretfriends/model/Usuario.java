@@ -7,18 +7,21 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.mindrot.jbcrypt.BCrypt;
 
 @Entity
 public class Usuario extends AbstractModel {
 	
 	@NotNull
-	@Size(min = 4)
+	@NotEmpty
+	@Size(min = 4, message="valor precisa ter no mínimo 4 caracteres")
 	@Column(nullable=false)
 	private String nome;
 	
 	@NotNull
-	@Email
+	@NotEmpty
+	@Email(message="não é um e-mail válido")
 	@Column(unique=true, nullable=false)
 	private String email;
 	
@@ -27,6 +30,7 @@ public class Usuario extends AbstractModel {
 	private String senha;
 	
 	@Transient
+	@NotEmpty
 	@Size(min=4, message="Senha precisa ter no mínimo {min} caracteres")
 	private String plainSenha;
 	
@@ -68,5 +72,9 @@ public class Usuario extends AbstractModel {
 		
 			this.senha = hashed;
 		}
+	}
+	
+	public boolean confirmarSenha(String plainSenha) {
+		return BCrypt.checkpw(plainSenha, senha);
 	}
 }

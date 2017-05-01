@@ -7,4 +7,5 @@ public interface UsuarioRepository extends CrudRepository<Usuario, Long> {
 
 	public Usuario findByUuid(String uuid);
 	public void deleteByUuid(String uuid);
+	public Usuario findByEmail(String email);
 }

@@ -25,12 +25,10 @@ abstract class AbstractModel {
 	@Column(nullable=false, unique=true)
 	protected String uuid;
 	
-	@NotNull
 	@Column(nullable=false)
 	@Temporal(TemporalType.TIMESTAMP)
 	protected Date criadoEm;
 	
-	@NotNull
 	@Column(nullable=false)
 	@Temporal(TemporalType.TIMESTAMP)
 	protected Date alteradoEm;
