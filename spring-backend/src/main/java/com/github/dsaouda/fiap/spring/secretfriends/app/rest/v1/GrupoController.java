@@ -2,7 +2,6 @@ package com.github.dsaouda.fiap.spring.secretfriends.app.rest.v1;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.dsaouda.fiap.spring.secretfriends.dto.GrupoDTO;
 import com.github.dsaouda.fiap.spring.secretfriends.model.Grupo;
-import com.github.dsaouda.fiap.spring.secretfriends.model.Usuario;
 import com.github.dsaouda.fiap.spring.secretfriends.repository.GrupoRepository;
-import com.github.dsaouda.fiap.spring.secretfriends.repository.UsuarioRepository;
 import com.github.dsaouda.fiap.spring.secretfriends.response.Response;
 import com.github.dsaouda.fiap.spring.secretfriends.service.GrupoService;
 import com.github.dsaouda.fiap.spring.secretfriends.session.UsuarioSession;
-import com.github.dsaouda.fiap.spring.secretfriends.validator.SimpleValidation;
 
 @CrossOrigin
 @Transactional
@@ -45,9 +41,17 @@ public class GrupoController {
 	UsuarioSession usuarioSession;
 	
 	@GetMapping("/{uuid}")
-	public ResponseEntity<Grupo> get(@PathVariable("uuid") String uuid) {		
-		Grupo grupo = repository.findByUuid(uuid);		
-		return new ResponseEntity<Grupo>(grupo, HttpStatus.OK);
+	public ResponseEntity<?> get(@PathVariable("uuid") String uuid) {		
+		Grupo grupo = repository.findByUuidAndAdministrador(uuid, usuarioSession.getUsuario());
+		
+		System.out.println("\n\n");
+		System.out.println(grupo);
+		System.out.println("\n\n");
+		
+		
+		GrupoDTO grupoDTO = new GrupoDTO(grupo);
+		
+		return Response.ok(grupoDTO).build();
 	}
 	
 	@GetMapping

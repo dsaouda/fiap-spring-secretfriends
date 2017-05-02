@@ -9,6 +9,7 @@ import com.github.dsaouda.fiap.spring.secretfriends.model.Usuario;
 import com.github.dsaouda.fiap.spring.secretfriends.repository.ConviteRepository;
 import com.github.dsaouda.fiap.spring.secretfriends.repository.GrupoRepository;
 import com.github.dsaouda.fiap.spring.secretfriends.repository.UsuarioRepository;
+import com.github.dsaouda.fiap.spring.secretfriends.session.UsuarioSession;
 
 @Service
 public class ConviteService {
@@ -22,12 +23,13 @@ public class ConviteService {
 	@Autowired
 	ConviteRepository conviteRepository;
 	
-	public Convite convidar(String grupoUuid, String usuarioDeUuid, String usuarioParaUuid) {
-		Grupo grupo = grupoRepository.findByUuid(grupoUuid);
-		Usuario de = usuarioRepository.findByUuid(usuarioDeUuid);
-		Usuario para = usuarioRepository.findByUuid(usuarioParaUuid);
-		
-		return conviteRepository.save(new Convite(de, para, grupo));
+	@Autowired
+	UsuarioSession usuarioSession;
+	
+	public Convite convidar(String grupoUid, String usuarioParaEmail) {
+		Grupo grupo = grupoRepository.findByUuid(grupoUid);
+		Usuario para = usuarioRepository.findByEmail(usuarioParaEmail);		
+		return conviteRepository.save(new Convite(usuarioSession.getUsuario(), para, grupo));		
 	}
 	
 }

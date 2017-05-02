@@ -100,14 +100,7 @@ export default {
         return {
             message: '',
             errors: {},
-            grupo: {
-                nome: '',
-                local_evento: '',
-                data_evento: '',
-                data_sorteio: '',
-                observacoes: '',
-                valor_presente: ''
-            }
+            grupo: {},
         }
     },
 

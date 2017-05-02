@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import {rcpOpen as $http} from '../service/http.js';
+import {rpcOpen as $http} from '../service/http.js';
 
 export default {
   data() {

@@ -40,7 +40,10 @@ module.exports = {
   },
   devServer: {
     historyApiFallback: true,
-    noInfo: true
+    noInfo: true,
+    disableHostCheck: true,
+    host: '0.0.0.0',
+    port: 8081
   },
   performance: {
     hints: false

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 
-import flashMessage from './FlashMessage.js';
+import flashMessage from './service/flashMessage.js';
 
 window.flashMessage = flashMessage;
 
