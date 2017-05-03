@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import {rest as $http} from '../service/http.js';
+import grupoService from '../service/grupoService.js';
 import Template from './Template.vue';
 
 export default {
@@ -54,16 +54,11 @@ export default {
             message: ''
         }
     },
-
    
     created: function () {
+        grupoService.setComponent(this);
         this.message = flashMessage.get('message');
-
-        $http.get('/grupo').then(r => {
-            this.grupos = r.data;
-        }).catch(e => {
-
-        });
+        grupoService.getAll();
     },
     methods: {
         querystring: function(grupo) {
@@ -72,7 +67,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-  
-</style>

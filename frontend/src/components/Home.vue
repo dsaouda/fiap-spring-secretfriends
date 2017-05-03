@@ -28,7 +28,7 @@
                 <input v-model.lazy="login.senha" type="password" name="password" placeholder="Senha">
               </div>
             </div>
-            <button v-on:click="logar($event)" class="ui fluid large blue submit button huge">Login</button>
+            <button v-on:click.prevent="logar()" class="ui fluid large blue submit button huge">Login</button>
           </div>
 
           <div class="ui error message"></div>
@@ -45,41 +45,33 @@
 </template>
 
 <script>
-import {rpcOpen as $http} from '../service/http.js';
+import loginService from '../service/loginService.js';
 
 export default {
   data() {
     return {
       message: '',
-      login: {
-        email: '',
-        senha: ''
-      }
+      login: {}
     }
   },
 
-  methods: {
-    
-    logar: function(event) {
-      event.preventDefault();
-      this.message = '';
-
-      $http.post('/login', this.login).then(response => {
-        this.$router.push('/grupo');
-
-      }).catch(e => {
-        let error = e.response.data;
-        if (error.message) {
-          this.message = error.message;
-        }
-      });
+  methods: {    
+    logar: function() {
+        this.message = '';
+        loginService.logar(this.login)
+          .then(r => {
+              this.$router.push('/grupo');
+          }).catch(e => {            
+              if (e.message) {
+                this.message = e.message;
+              }  
+        });
     }
   },
 
   created: function () {
-    this.message = flashMessage.get('message');
+      this.message = flashMessage.get('message');
   }
-
 }
 </script>
 
