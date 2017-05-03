@@ -32,19 +32,38 @@
                     </span>
                 </div>
 
-                <button v-on:click.prevent="salvar()" class="ui right labeled icon button blue big">
+                <button v-on:click.prevent="enviar()" class="ui right labeled icon button blue big">
                     <i class="right arrow icon"></i>
                     Enviar convite
                 </button>
             </form>
+        </div>
+        
+        <div class="row">
+            <br>
+            <table v-if="convitesEnviados" class="ui table">
+                <thead>
+                    <tr>
+                        <th>Para</th>
+                        <th>Enviado em</th>                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(convite, index) in convitesEnviados">
+                        <td>{{convite.para}} ({{convite.email}})</td>
+                        <td>{{convite.em}}</td>                 
+                    </tr>
+                </tbody>
+            </table>
+
         </div>
 
     </template-app>
 </template>
 
 <script>
-import {rpc as $httpRpc} from '../service/http.js';
-import {rest as $httpRest} from '../service/http.js';
+import conviteService from '../service/conviteService.js';
+import grupoService from '../service/grupoService.js';
 import Template from './Template.vue';
 
 export default {
@@ -58,42 +77,19 @@ export default {
             errors: {},
             convite: {},
             grupo: {},
-
+            convitesEnviados: [],
         }
     },
 
     created: function() {
         this.convite.grupo = this.$route.query.uuid;
-        
-        $httpRest.get('/grupo/' + this.convite.grupo)
-            .then(r => {                    
-                this.grupo = r.data.data;
-
-            }).catch(e => {
-                
-            });
-
+        grupoService.get(this, this.convite.grupo);
+        conviteService.getEnviados(this, this.convite.grupo);
     },
 
     methods: {
-        salvar: function() {            
-            this.messageSuccess = '';
-            this.messageError = '';
-
-            $httpRpc.post('/convite/enviar', this.convite)
-            .then(r => {
-                this.messageSuccess = 'Convite enviado com sucesso!';
-                this.grupo.email = '';
-                
-            }).catch(e => {
-                console.log(e.response.data.message);
-                this.messageError = e.response.data.message;
-            });
-        }
+        enviar: function() { convite.criar(this); },
+        convitesEnviados: function() { convite.enviados(this); }
     }
 }
 </script>
-
-<style scoped>
-
-</style>

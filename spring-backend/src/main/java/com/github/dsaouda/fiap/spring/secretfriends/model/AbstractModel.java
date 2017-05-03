@@ -53,6 +53,14 @@ abstract class AbstractModel {
 		this.uuid = uuid;
 	}
 	
+	public Date getCriadoEm() {
+		return criadoEm;
+	}
+
+	public Date getAlteradoEm() {
+		return alteradoEm;
+	}
+
 	@PrePersist
 	private void preInsert() {
 		criadoEm = new Date();

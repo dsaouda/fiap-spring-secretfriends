@@ -89,7 +89,7 @@
 </template>
 
 <script>
-import {rest as $http} from '../service/http.js';
+import grupoService from '../service/grupoService.js';
 import Template from './Template.vue';
 
 export default {
@@ -105,27 +105,7 @@ export default {
     },
 
     methods: {
-        salvar: function(event) {
-            event.preventDefault();
-            this.errors = {};
-            this.message = '';
-
-            $http.post('/grupo', this.grupo)
-                .then(response => {
-                    flashMessage.set('message', 'Grupo cadastrado com sucesso');
-                    this.$router.push('/grupo');
-            }).catch(e => {
-                let error = e.response.data;
-                
-                if (error.data) {
-                this.errors = error.data;
-                }
-
-                if (error.message) {
-                this.message = error.message;
-                }
-            });
-        }
+        salvar: () => grupoService.criar(this),
     }
 }
 </script>

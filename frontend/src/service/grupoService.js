@@ -4,13 +4,37 @@ class GrupoService {
         this.$http = http;
     }
 
-    setComponent(component) {
-        this.component = component;
+    get(context, uuid) {
+         $http.get(`/grupo/${uuid}`)
+            .then(r => {
+                context.grupo = r.data;
+            });
     }
 
-    getAll() {        
-        return $http.get('/grupo').then(r => {
-            this.component.grupos = r.data;
+    criar(context) {
+        context.errors = {};
+        context.message = '';
+
+        $http.post('/grupo', context.grupo)
+            .then(response => {
+                flashMessage.set('message', 'Grupo cadastrado com sucesso');
+                context.$router.push('/grupo');
+            }).catch(e => {
+                let error = e.response.data;
+                
+                if (error.data) {
+                    context.errors = error.data;
+                }
+
+                if (error.message) {
+                    context.message = error.message;
+                }
+            });
+    }
+
+    getAll(context) {        
+        return $http.get('/grupo').then(response => {            
+            context.grupos = response;
         });;
     }
 }

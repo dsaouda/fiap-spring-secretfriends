@@ -1,5 +1,7 @@
 package com.github.dsaouda.fiap.spring.secretfriends.app.rpc.v1;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.dsaouda.fiap.spring.secretfriends.dto.ConviteEnviadoDTO;
 import com.github.dsaouda.fiap.spring.secretfriends.model.Convite;
-import com.github.dsaouda.fiap.spring.secretfriends.repository.ConviteRepository;
 import com.github.dsaouda.fiap.spring.secretfriends.request.Request;
 import com.github.dsaouda.fiap.spring.secretfriends.response.Response;
 import com.github.dsaouda.fiap.spring.secretfriends.service.ConviteService;
@@ -22,9 +24,6 @@ import com.github.dsaouda.fiap.spring.secretfriends.service.ConviteService;
 @RequestMapping("/rpc/v1/convite")
 public class ConviteRpcController {
 
-	@Autowired
-	ConviteRepository repository;
-	
 	@Autowired
 	ConviteService service;
 	
@@ -38,6 +37,18 @@ public class ConviteRpcController {
 			return Response.created(convidar).build("Convite enviado com sucesso");
 		} catch (Exception e) {
 			return Response.badRequest(e).build("Não foi possível realizar o convite");
+		}		
+	}
+	
+	@PostMapping("/enviados")
+	public ResponseEntity<?> enviados(@RequestBody Request request) {
+		
+		try {
+			List<ConviteEnviadoDTO> enviados = service.enviados(request.getString("grupo"));
+			return Response.ok(enviados).build();
+			
+		} catch (Exception e) {
+			return Response.badRequest(e).build("Não foi possível capturar os convites");
 		}		
 	}
 	

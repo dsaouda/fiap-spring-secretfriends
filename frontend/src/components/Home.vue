@@ -51,25 +51,15 @@ export default {
   data() {
     return {
       message: '',
-      login: {}
+      login: { email: '', senha: '' }
     }
   },
 
   methods: {    
-    logar: function() {
-        this.message = '';
-        loginService.logar(this.login)
-          .then(r => {
-              this.$router.push('/grupo');
-          }).catch(e => {            
-              if (e.message) {
-                this.message = e.message;
-              }  
-        });
-    }
+    logar: function() { loginService.logar(this); },
   },
 
-  created: function () {
+  created: function () {      
       this.message = flashMessage.get('message');
   }
 }

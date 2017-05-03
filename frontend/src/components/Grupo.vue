@@ -56,9 +56,8 @@ export default {
     },
    
     created: function () {
-        grupoService.setComponent(this);
         this.message = flashMessage.get('message');
-        grupoService.getAll();
+        grupoService.getAll(this);
     },
     methods: {
         querystring: function(grupo) {

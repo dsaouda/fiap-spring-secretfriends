@@ -4,8 +4,15 @@ class LoginService {
         this.$http = http;
     }
 
-    logar(params) {
-        return $http.post('/login', params);
+    logar(context) {
+        context.message = '';
+        return $http.post('/login', context.login).then(r => {
+              context.$router.push('/grupo');
+          }).catch(e => {            
+              if (e.message) {
+                context.message = e.message;
+              }  
+        });;
     }
 }
 

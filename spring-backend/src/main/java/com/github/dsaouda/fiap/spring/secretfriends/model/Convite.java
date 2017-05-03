@@ -43,4 +43,21 @@ public class Convite extends AbstractModel {
 			throw new ConviteInvalidoException();
 		}
 	}
+
+	public Usuario getDe() {
+		return de;
+	}
+
+	public Usuario getPara() {
+		return para;
+	}
+
+	public Grupo getGrupo() {
+		return grupo;
+	}
+
+	@Override
+	public String toString() {
+		return "Convite [de=" + de + ", para=" + para + ", grupo=" + grupo + "]";
+	}
 }

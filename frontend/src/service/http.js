@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-console.log();
-
 const HOST = 'http://localhost:8092';
 
 class Http {
@@ -10,7 +8,7 @@ class Http {
         this.axios = axios.create(options);
         let self = this;
         this.axios.interceptors.response.use(function (response) {    
-            return response;
+            return response.data;
         }, function (error) {
             self._modalIfError(error);
             return Promise.reject(error.response.data);
@@ -18,6 +16,10 @@ class Http {
     }
 
     _modalIfError(error) {
+        if ($('.ui.modal.nao-autenticado').length) {
+            return ;
+        }
+
         if (error.response.status === 403) {
             $('body').append(`
                 <div class="ui modal nao-autenticado">
@@ -60,17 +62,27 @@ class Http {
 
 const rpcOpen = new Http({
     baseURL: `${HOST}/open/rpc/v1`,
-    withCredentials:true
+    withCredentials:true,
+    headers: {
+        'Content-Type': 'application/json'
+    }
 });
 
 const rpc = new Http({
     baseURL: `${HOST}/rpc/v1`,
-    withCredentials:true
+    withCredentials:true,
+    headers: {
+        'Content-Type': 'application/json'
+    }
+    
 });
 
 const rest = new Http({
     baseURL: `${HOST}/rest/v1`,
-    withCredentials:true
+    withCredentials:true,
+    headers: {
+        'Content-Type': 'application/json'
+    }
 });
 
 export {rpcOpen, rest, rpc};
