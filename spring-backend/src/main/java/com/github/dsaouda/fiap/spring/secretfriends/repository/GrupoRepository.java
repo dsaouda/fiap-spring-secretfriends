@@ -10,4 +10,5 @@ public interface GrupoRepository extends CrudRepository<Grupo, Long> {
 	public Grupo findByUuid(String uuid);
 	public void deleteByUuid(String uuid);
 	public Grupo findByUuidAndAdministrador(String uuid, Usuario administrador);
+	public Iterable<Grupo> findByAdministrador(Usuario usuario);
 }

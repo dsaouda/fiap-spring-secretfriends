@@ -7,6 +7,10 @@ class ParticipanteService {
     participar(grupoUid) {
         return $http.post('/participante', { grupo: grupoUid });
     }
+
+    getParticipacoes() {
+        return $http.get('/participante');
+    }
 }
 
 import { rest as $http } from './http.js';

@@ -5,7 +5,7 @@
             <form class="ui form" :class="{error: errors}">
 
                 <div class="field">
-                    <label>Nome</label>
+                    <label>Nome *</label>
                     <div class="ui left icon input big">
                         <i class="user icon"></i>
                         <input type="text" v-model.lazy="grupo.nome" placeholder="nome do grupo">
@@ -31,7 +31,7 @@
                 </div>
 
                 <div class="field">
-                    <label>Data/hora do evento</label>
+                    <label>Data/hora do evento *</label>
                     <div class="ui left icon input big">
                         <i class="calendar icon"></i>
                         <input type="text" v-model.lazy="grupo.dataEvento" placeholder="yyyy-MM-dd HH:mm:ss">
@@ -43,7 +43,7 @@
                 </div>
 
                 <div class="field">
-                    <label>Data/hora do sorteio</label>
+                    <label>Data/hora do sorteio *</label>
                     <div class="ui left icon input big">
                         <i class="calendar icon"></i>
                         <input type="text" v-model.lazy="grupo.dataSorteio" placeholder="yyyy-MM-dd HH:mm:ss">
@@ -55,7 +55,7 @@
                 </div>
 
                 <div class="field">
-                    <label>Local evento</label>
+                    <label>Local evento *</label>
                     <div class="ui left icon input big">
                         <i class="marker icon"></i>
                         <input type="text" v-model.lazy="grupo.localEvento" placeholder="local evento">
@@ -78,7 +78,7 @@
                     </span>
                 </div>
 
-                <button v-on:click="salvar($event)" class="ui right labeled icon button blue big">
+                <button @click.prevent="salvar()" class="ui right labeled icon button blue big">
                     <i class="right arrow icon"></i>
                     Salvar
                 </button>
@@ -89,7 +89,7 @@
 </template>
 
 <script>
-import grupoService from '../service/grupoService.js';
+import grupoService from '../service/grupoService';
 import Template from './Template.vue';
 
 export default {
@@ -105,11 +105,26 @@ export default {
     },
 
     methods: {
-        salvar: () => grupoService.criar(this),
+        salvar: function() { 
+            this.errors = {};
+            this.message = '';
+            
+            grupoService.criar(this.grupo)
+                .then(response => {
+                    flashMessage.set('message', 'Grupo cadastrado com sucesso');
+                    this.$router.push('/grupo');
+                }).catch(e => {
+                    let error = e.data;
+
+                    if (error) {
+                        this.errors = error;
+                    }
+
+                    if (e.message) {
+                        this.message = e.message;
+                    }
+                });
+        },
     }
 }
 </script>
-
-<style scoped>
-
-</style>

@@ -28,4 +28,8 @@ public class ParticipanteService {
 		
 		return participanteRepository.save(new Participante(usuario, grupo));
 	}
+
+	public Iterable<Participante> participacoes(Usuario usuario) {
+		return participanteRepository.findByParticipante(usuario);
+	}
 }

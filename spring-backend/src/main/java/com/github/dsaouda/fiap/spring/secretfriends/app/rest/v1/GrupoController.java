@@ -44,12 +44,6 @@ public class GrupoController {
 	public ResponseEntity<?> get(@PathVariable("uuid") String uuid) {		
 		//Grupo grupo = repository.findByUuidAndAdministrador(uuid, usuarioSession.getUsuario());
 		Grupo grupo = repository.findByUuid(uuid);
-		
-		System.out.println("\n\n");
-		System.out.println(uuid);
-		System.out.println(grupo);
-		System.out.println("\n\n");
-		
 		GrupoDTO grupoDTO = new GrupoDTO(grupo);
 		
 		return Response.ok(grupoDTO).build();
@@ -57,7 +51,7 @@ public class GrupoController {
 	
 	@GetMapping
 	public List<GrupoDTO> getAll() {
-		return service.getAll();
+		return service.getAll(usuarioSession.getUsuario());
 	}
 	
 	@PostMapping

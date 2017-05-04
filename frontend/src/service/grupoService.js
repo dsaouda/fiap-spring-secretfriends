@@ -11,25 +11,8 @@ class GrupoService {
             });
     }
 
-    criar(context) {
-        context.errors = {};
-        context.message = '';
-
-        $http.post('/grupo', context.grupo)
-            .then(response => {
-                flashMessage.set('message', 'Grupo cadastrado com sucesso');
-                context.$router.push('/grupo');
-            }).catch(e => {
-                let error = e.response.data;
-
-                if (error.data) {
-                    context.errors = error.data;
-                }
-
-                if (error.message) {
-                    context.message = error.message;
-                }
-            });
+    criar(grupo) {
+        return $http.post('/grupo', grupo);
     }
 
     getAll(context) {

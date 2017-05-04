@@ -28,8 +28,8 @@ public class GrupoService {
 	@Autowired
 	ParticipanteRepository participanteRepository;
 	
-	public List<GrupoDTO> getAll() {
-		Iterable<Grupo> grupos = repository.findAll();
+	public List<GrupoDTO> getAll(Usuario usuario) {
+		Iterable<Grupo> grupos = repository.findByAdministrador(usuario);
 		return GrupoDTO.toDTO(grupos);
 	}
 	
