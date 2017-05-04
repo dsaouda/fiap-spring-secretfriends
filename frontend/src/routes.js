@@ -14,8 +14,8 @@ export const routes = [{
     path: '/cadastro',
     component: Cadastro,
 },{
-    name: 'grupo',
-    path: '/grupo',
+    name: 'grupos',
+    path: '/grupos',
     component: Grupo,
 },{
     name: 'grupo/cadastro',

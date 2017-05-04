@@ -5,16 +5,16 @@
         <a href="#" class="header item">
           <i class="users icon"></i> Amigo Secreto
         </a>
-        <a href="#" class="item">Convites</a>
+        <router-link to="convites" class="item">Convites</router-link>
         <div class="ui simple dropdown item">
           Grupos <i class="dropdown icon"></i>
           <div class="menu">
-            <a class="item" href="#">Administrando</a>
-            <a class="item" href="#">Participando</a>
+            <router-link to="grupos" class="item">Administrando</router-link>
+            <a class="item">Participando</a>
           </div>
         </div>
         
-        <a href="#" class="item">Sair</a>
+        <a href="#" @click.prevent="sair()" class="item">Sair</a>
       </div>
     </div>
 
@@ -28,5 +28,10 @@
 <script>
 
 export default {
+    methods: {
+        sair: function() {
+            console.log('sair');
+        }
+    }  
 }
 </script>

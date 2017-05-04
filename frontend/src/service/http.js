@@ -7,9 +7,9 @@ class Http {
     constructor(options) {
         this.axios = axios.create(options);
         let self = this;
-        this.axios.interceptors.response.use(function (response) {    
+        this.axios.interceptors.response.use(function(response) {
             return response.data;
-        }, function (error) {
+        }, function(error) {
             self._modalIfError(error);
             return Promise.reject(error.response.data);
         });
@@ -17,7 +17,7 @@ class Http {
 
     _modalIfError(error) {
         if ($('.ui.modal.nao-autenticado').length) {
-            return ;
+            return;
         }
 
         if (error.response.status === 403) {
@@ -30,28 +30,33 @@ class Http {
                     <div class="actions">
                         <a href="/" class="ui approve button">Ir para página de Login</a>                    
                     </div>
-                </div>`
-            );
+                </div>`);
             $('.ui.modal.nao-autenticado').modal('show');
         }
 
         if (error.response.status >= 500) {
             $('body').append(`
-                <div class="ui modal nao-autenticado">
+                <div class="ui modal erro-no-servidor">
                     <div class="header">Erro não esperado</div>
                     <div class="content">
                         <p>Ocorreu um erro não esperado no servidor, tente novamente ou entre em contato com administrador</p>
                     </div>
                     <div class="actions">
-                        <a href="/#/grupo" class="ui approve button">Continuar</a>                    
+                        <span class="ui approve button btn-erro-servidor">Continuar</span>
                     </div>
-                </div>`
-            );
-            $('.ui.modal.nao-autenticado').modal('show');
+                </div>`);
+
+            let $modal = $('.ui.modal.erro-no-servidor');
+            $modal.modal('show');
+            $('.btn-erro-servidor').click(function() {
+                $modal.modal('hide');
+                $modal.remove();
+            });
+
         }
     }
 
-    post(uri, params) {         
+    post(uri, params) {
         return this.axios.post(uri, params);
     }
 
@@ -62,7 +67,7 @@ class Http {
 
 const rpcOpen = new Http({
     baseURL: `${HOST}/open/rpc/v1`,
-    withCredentials:true,
+    withCredentials: true,
     headers: {
         'Content-Type': 'application/json'
     }
@@ -70,19 +75,19 @@ const rpcOpen = new Http({
 
 const rpc = new Http({
     baseURL: `${HOST}/rpc/v1`,
-    withCredentials:true,
+    withCredentials: true,
     headers: {
         'Content-Type': 'application/json'
     }
-    
+
 });
 
 const rest = new Http({
     baseURL: `${HOST}/rest/v1`,
-    withCredentials:true,
+    withCredentials: true,
     headers: {
         'Content-Type': 'application/json'
     }
 });
 
-export {rpcOpen, rest, rpc};
+export { rpcOpen, rest, rpc };

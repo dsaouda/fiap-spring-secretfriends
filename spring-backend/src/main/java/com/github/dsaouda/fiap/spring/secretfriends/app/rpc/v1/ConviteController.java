@@ -6,26 +6,29 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.dsaouda.fiap.spring.secretfriends.dto.ConviteEnviadoDTO;
+import com.github.dsaouda.fiap.spring.secretfriends.dto.ConviteRecebidoDTO;
 import com.github.dsaouda.fiap.spring.secretfriends.model.Convite;
 import com.github.dsaouda.fiap.spring.secretfriends.request.Request;
 import com.github.dsaouda.fiap.spring.secretfriends.response.Response;
 import com.github.dsaouda.fiap.spring.secretfriends.service.ConviteService;
+import com.github.dsaouda.fiap.spring.secretfriends.session.UsuarioSession;
 
-@CrossOrigin
 @Transactional
-@RestController()
+@RestController(value="conviteRpc")
 @RequestMapping("/rpc/v1/convite")
-public class ConviteRpcController {
+public class ConviteController {
 
 	@Autowired
-	ConviteService service;
+	private ConviteService service;
+	
+	@Autowired
+	private UsuarioSession usuarioSession;
 	
 	@PostMapping("/enviar")
 	public ResponseEntity<?> convidar(@RequestBody Request request) {
@@ -46,6 +49,17 @@ public class ConviteRpcController {
 		try {
 			List<ConviteEnviadoDTO> enviados = service.enviados(request.getString("grupo"));
 			return Response.ok(enviados).build();
+			
+		} catch (Exception e) {
+			return Response.badRequest(e).build("Não foi possível capturar os convites");
+		}		
+	}
+	
+	@PostMapping("/recebidos")
+	public ResponseEntity<?> recebidos() {		
+		try {
+			List<ConviteRecebidoDTO> recebidos = service.recebidos(usuarioSession.getUsuario());
+			return Response.ok(recebidos).build();
 			
 		} catch (Exception e) {
 			return Response.badRequest(e).build("Não foi possível capturar os convites");

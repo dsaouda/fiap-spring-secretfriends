@@ -33,10 +33,6 @@ abstract class AbstractModel {
 	@Temporal(TemporalType.TIMESTAMP)
 	protected Date alteradoEm;
 	
-	public AbstractModel() {
-		uuid = UUID.randomUUID().toString();
-	}
-	
 	public long getId() {
 		return id;
 	}
@@ -63,6 +59,7 @@ abstract class AbstractModel {
 
 	@PrePersist
 	private void preInsert() {
+		uuid = UUID.randomUUID().toString();
 		criadoEm = new Date();
 		alteradoEm = new Date();
 	}

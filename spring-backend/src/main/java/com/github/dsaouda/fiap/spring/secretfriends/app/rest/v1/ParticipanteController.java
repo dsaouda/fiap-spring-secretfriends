@@ -13,20 +13,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.dsaouda.fiap.spring.secretfriends.model.Participante;
 import com.github.dsaouda.fiap.spring.secretfriends.service.ParticipanteService;
+import com.github.dsaouda.fiap.spring.secretfriends.session.UsuarioSession;
 
 @CrossOrigin
 @Transactional
 @RestController
-@RequestMapping("/api/rest/v1/participante")
+@RequestMapping("/rest/v1/participante")
 public class ParticipanteController {
 
 	@Autowired
 	ParticipanteService service;
 	
+	@Autowired
+	UsuarioSession usuarioSession;
+	
 	@PostMapping
 	public Participante participar(@RequestBody Map<String, String> req) {
 		String grupo = req.get("grupo");
-		String usuario = req.get("usuario");		
-		return service.participar(usuario, grupo);
+				
+		return service.participar(usuarioSession.getUuid(), grupo);
 	}	
 }

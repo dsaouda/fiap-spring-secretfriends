@@ -5,7 +5,7 @@ class GrupoService {
     }
 
     get(context, uuid) {
-         $http.get(`/grupo/${uuid}`)
+        $http.get(`/grupo/${uuid}`)
             .then(r => {
                 context.grupo = r.data;
             });
@@ -21,7 +21,7 @@ class GrupoService {
                 context.$router.push('/grupo');
             }).catch(e => {
                 let error = e.response.data;
-                
+
                 if (error.data) {
                     context.errors = error.data;
                 }
@@ -32,12 +32,12 @@ class GrupoService {
             });
     }
 
-    getAll(context) {        
-        return $http.get('/grupo').then(response => {            
+    getAll(context) {
+        return $http.get('/grupo').then(response => {
             context.grupos = response;
         });;
     }
 }
 
-import {rest as $http} from './http.js';
+import { rest as $http } from './http.js';
 export default new GrupoService($http);

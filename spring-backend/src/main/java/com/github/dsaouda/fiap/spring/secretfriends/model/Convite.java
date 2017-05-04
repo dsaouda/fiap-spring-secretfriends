@@ -15,15 +15,15 @@ import com.github.dsaouda.fiap.spring.secretfriends.exception.ConviteInvalidoExc
 })
 public class Convite extends AbstractModel {
 	
-	@ManyToOne(fetch=FetchType.LAZY, optional=false)
+	@ManyToOne(fetch=FetchType.EAGER, optional=false)
 	@JoinColumn(name="de", nullable=false)
 	private Usuario de;
 	
-	@ManyToOne(fetch=FetchType.LAZY, optional=false)
+	@ManyToOne(fetch=FetchType.EAGER, optional=false)
 	@JoinColumn(name="para", nullable=false)
 	private Usuario para;
 	
-	@ManyToOne(fetch=FetchType.LAZY, optional=false)
+	@ManyToOne(fetch=FetchType.EAGER, optional=false)
 	@JoinColumn(name="grupo", nullable=false)
 	private Grupo grupo;
 	

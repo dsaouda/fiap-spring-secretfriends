@@ -10,6 +10,17 @@ class ConviteService {
         });
     }
 
+    recebidos(context) {
+        $http.post('/convite/recebidos')
+            .then(r => {
+                context.convites = r.data;
+                console.log(r);
+                
+            }).catch(e => {            
+                
+            });
+    }
+
     enviar(context) {
         context.messageSuccess = '';
         context.messageError = '';

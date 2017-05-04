@@ -47,7 +47,7 @@ public class Grupo extends AbstractModel  {
 	
 	
 	@NotNull
-	@ManyToOne(fetch=FetchType.LAZY, optional=false)
+	@ManyToOne(fetch=FetchType.EAGER, optional=false)
 	@JoinColumn(name="usuario", nullable=false)
 	private Usuario administrador;
 	
@@ -118,5 +118,11 @@ public class Grupo extends AbstractModel  {
 
 	public void setAdministrador(Usuario administrador) {
 		this.administrador = administrador;
+	}
+
+	@Override
+	public String toString() {
+		return "Grupo [nome=" + nome + ", valorPresente=" + valorPresente + ", localEvento=" + localEvento
+				+ ", dataSorteio=" + dataSorteio + ", dataEvento=" + dataEvento + ", observacoes=" + observacoes + "]";
 	}
 }

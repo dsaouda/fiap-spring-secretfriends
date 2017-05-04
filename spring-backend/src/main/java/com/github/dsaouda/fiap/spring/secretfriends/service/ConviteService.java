@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.dsaouda.fiap.spring.secretfriends.dto.ConviteEnviadoDTO;
+import com.github.dsaouda.fiap.spring.secretfriends.dto.ConviteRecebidoDTO;
 import com.github.dsaouda.fiap.spring.secretfriends.model.Convite;
 import com.github.dsaouda.fiap.spring.secretfriends.model.Grupo;
 import com.github.dsaouda.fiap.spring.secretfriends.model.Usuario;
@@ -39,5 +40,10 @@ public class ConviteService {
 		Grupo grupo = grupoRepository.findByUuid(grupoUid);
 		Iterable<Convite> convites = conviteRepository.findByGrupo(grupo);
 		return ConviteEnviadoDTO.toDTO(convites); 
+	}
+
+	public List<ConviteRecebidoDTO> recebidos(Usuario usuario) {		
+		Iterable<Convite> convites = conviteRepository.findByPara(usuario);
+		return ConviteRecebidoDTO.toDTO(convites);		
 	}
 }

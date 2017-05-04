@@ -13,15 +13,15 @@ import javax.persistence.UniqueConstraint;
 })
 public class Participante extends AbstractModel {
 	
-	@ManyToOne(fetch=FetchType.LAZY, optional=false)
+	@ManyToOne(fetch=FetchType.EAGER, optional=false)
 	@JoinColumn(name="participante", nullable=false)
 	private Usuario participante;
 	
-	@ManyToOne(fetch=FetchType.LAZY, optional=true)
+	@ManyToOne(fetch=FetchType.EAGER, optional=true)
 	@JoinColumn(name="amigoSecreto", nullable=true)
 	private Usuario amigoSecreto;
 	
-	@ManyToOne(fetch=FetchType.LAZY, optional=false)
+	@ManyToOne(fetch=FetchType.EAGER, optional=false)
 	@JoinColumn(name="grupo", nullable=false)
 	private Grupo grupo;
 	
