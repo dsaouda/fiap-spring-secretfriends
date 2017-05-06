@@ -33,13 +33,13 @@ public class Grupo extends AbstractModel  {
 	@NotNull
 	@Column(nullable=false)
 	@Temporal(TemporalType.TIMESTAMP)
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
 	private Date dataSorteio;
 	
 	@NotNull
 	@Column(nullable=false)
 	@Temporal(TemporalType.TIMESTAMP)
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
 	private Date dataEvento;
 	
 	@Column(nullable=true)

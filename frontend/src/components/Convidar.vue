@@ -2,14 +2,14 @@
     <template-app>
 
         <div v-if="messageSuccess" class="ui info message">
-            <i class="close icon"></i>
+            <i onclick="$(this).parent().remove()" class="close icon"></i>
             <div class="header">
                 {{messageSuccess}}
             </div>            
         </div>
 
         <div v-if="messageError" class="ui error message">
-            <i class="close icon"></i>
+            <i onclick="$(this).parent().remove()" class="close icon"></i>
             <div class="header">
                 {{messageError}}
             </div>            
@@ -32,7 +32,7 @@
                     </span>
                 </div>
 
-                <button v-on:click.prevent="enviar()" class="ui right labeled icon button blue big">
+                <button @click.prevent="enviar()" class="ui right labeled icon button blue big">
                     <i class="right arrow icon"></i>
                     Enviar convite
                 </button>
@@ -41,20 +41,40 @@
         
         <div class="row">
             <br>
-            <table v-if="convitesEnviados" class="ui table">
+            <table v-if="convitesEnviados.length > 0" class="ui table">
                 <thead>
                     <tr>
                         <th>Para</th>
-                        <th>Enviado em</th>                        
+                        <th>Enviado em</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="(convite, index) in convitesEnviados">
                         <td>{{convite.para}} ({{convite.email}})</td>
-                        <td>{{convite.em}}</td>                 
+                        <td>{{convite.em}}</td>
+                        <td>
+                            <span v-if="convite.aceitoEm">
+                                Aceito em {{convite.aceitoEm}}
+                            </span>
+
+                            <span v-else-if="convite.canceladoEm">
+                                Rejeitado em {{convite.canceladoEm}}
+                            </span>
+
+                            <span v-else>
+                                convidado não realizou ação <br>(aceita ou rejeitar)
+                            </span>
+                        </td>
                     </tr>
                 </tbody>
             </table>
+
+            <div v-else class="ui warning message">
+                <div class="header">
+                    Nenhum convite enviado.
+                </div>            
+            </div>
 
         </div>
 
@@ -84,12 +104,31 @@ export default {
     created: function() {
         this.convite.grupo = this.$route.query.uuid;
         grupoService.get(this, this.convite.grupo);
-        conviteService.getEnviados(this, this.convite.grupo);
+        
+        this.getConvitesEnviados();
     },
 
     methods: {
-        enviar: function() { convite.criar(this); },
-        convitesEnviados: function() { convite.enviados(this); }
+        enviar: function() { 
+            this.messageSuccess = '';
+            this.messageError = '';
+            
+            conviteService.enviar(this.convite).then(r => {
+                this.messageSuccess = 'Convite enviado com sucesso!';
+                this.convite.email = '';
+                
+                this.getConvitesEnviados();
+
+            }).catch(e => {            
+                this.messageError = e.message;
+            });
+        },
+
+        getConvitesEnviados: function() {
+            conviteService.getEnviados(this.convite.grupo).then(r => {
+                this.convitesEnviados = r.data;                  
+            });
+        }
     }
 }
 </script>

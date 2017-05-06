@@ -43,6 +43,17 @@ public class ConviteController {
 		}		
 	}
 	
+	@PostMapping("/rejeitar")
+	public ResponseEntity<?> rejeitar(@RequestBody Request request) {
+		try {
+			service.rejeitar(usuarioSession.getUuid(), request.getString("grupo"));
+			
+			return Response.created(null).build("Convite rejeitado com sucesso");
+		} catch (Exception e) {
+			return Response.badRequest(e).build("Não foi possível rejeitar o convite");
+		}		
+	}
+	
 	@PostMapping("/enviados")
 	public ResponseEntity<?> enviados(@RequestBody Request request) {
 		

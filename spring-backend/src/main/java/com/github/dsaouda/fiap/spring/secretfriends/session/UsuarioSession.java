@@ -46,6 +46,10 @@ public class UsuarioSession {
 		this.usuario = usuario;
 	}
 	
+	public void remove() {
+		this.usuario = null;
+	}
+	
 	@Override
 	public String toString() {
 		return "UsuarioSession [id=" + getId() + ", uuid=" + getUuid() + ", nome=" + getNome() + ", email=" + getEmail() + "]";

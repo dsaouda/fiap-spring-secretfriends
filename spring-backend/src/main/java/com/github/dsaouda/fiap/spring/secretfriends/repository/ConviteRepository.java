@@ -12,4 +12,5 @@ public interface ConviteRepository extends CrudRepository<Convite, Long> {
 	public void deleteByUuid(String uuid);
 	public Iterable<Convite> findByGrupo(Grupo grupo);
 	public Iterable<Convite> findByPara(Usuario usuario);
+	public Convite findByParaAndGrupo(Usuario usuario, Grupo grupo);
 }

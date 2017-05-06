@@ -1,10 +1,13 @@
 <template>
     <template-app>
-        
+        <h2>Grupos Participando</h2>
+
+        obs: todo grupo que você administra, automaticamente você é um participante.
+
         <table class="ui table">
             <thead>
                 <tr>
-                    <th>Nome</th>
+                    <th>Grupo</th>
                     <th>Data Sorteio</th>
                     <th>Data Evento</th>
                     <th>Valor</th>

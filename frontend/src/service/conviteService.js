@@ -4,35 +4,25 @@ class ConviteService {
         this.$http = http;
     }
 
-    getEnviados(context, grupoUid) {
-        $http.post('/convite/enviados', {grupo: grupoUid}).then(r => {
-            context.convitesEnviados = r.data;                  
-        });
+    getEnviados(grupoUid) {
+        return $http.post('/convite/enviados', {grupo: grupoUid});
     }
 
     recebidos(context) {
         $http.post('/convite/recebidos')
             .then(r => {
                 context.convites = r.data;
-                console.log(r);
-                
             }).catch(e => {            
                 
             });
     }
 
-    enviar(context) {
-        context.messageSuccess = '';
-        context.messageError = '';
+    rejeitar(grupoUid) {
+        return $http.post('/convite/rejeitar', {grupo: grupoUid});
+    }
 
-        $http.post('/convite/enviar', context.convite)
-            .then(r => {
-                context.messageSuccess = 'Convite enviado com sucesso!';
-                context.grupo.email = '';
-                
-            }).catch(e => {            
-                context.messageError = e.message;
-            });
+    enviar(convite) {
+        return $http.post('/convite/enviar', convite);
     }
    
 }

@@ -8,7 +8,7 @@
 
         </a>
         <router-link class="item" to="/">Home</router-link>
-        <a href="#" class="item">Sobre</a>
+        <a href="https://github.com/dsaouda/fiap-spring-secretfriends" class="item" target="_blank">Sobre</a>
 
       </div>
     </div>
@@ -17,7 +17,7 @@
       <h2>Cadastro</h2>
 
       <div class="row">
-        Informe apenas mais alguns dados para começar a brincar
+        Informe mais alguns dados para começar a brincar
       </div>
 
       <div class="row">&nbsp;</div>
@@ -115,14 +115,14 @@ export default {
           flashMessage.set('message', 'Usuário criado com sucesso');
           this.$router.push('/');
       }).catch(e => {
-        let error = e.response.data;
-        
-        if (error.data) {
-          this.errors = error.data;
+        let error = e.data;
+
+        if (error) {
+            this.errors = error;
         }
 
-        if (error.message) {
-          this.message = error.message;
+        if (e.message) {
+            this.message = e.message;
         }
       });
     },

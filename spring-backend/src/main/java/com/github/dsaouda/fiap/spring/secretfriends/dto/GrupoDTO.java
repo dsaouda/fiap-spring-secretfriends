@@ -40,12 +40,12 @@ public class GrupoDTO {
 		return grupo.getLocalEvento();
 	}
 
-	@JsonFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern="dd/MM/yyyy HH:mm")
 	public Date getDataSorteio() {
 		return grupo.getDataSorteio();
 	}
 
-	@JsonFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern="dd/MM/yyyy HH:mm")
 	public Date getDataEvento() {
 		return grupo.getDataEvento();
 	}

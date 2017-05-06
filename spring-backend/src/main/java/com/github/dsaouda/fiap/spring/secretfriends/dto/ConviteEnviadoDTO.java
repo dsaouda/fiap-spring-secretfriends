@@ -33,4 +33,19 @@ public class ConviteEnviadoDTO {
 	public String getEm() {		
 		return formatter.format(convite.getCriadoEm());
 	}
+	
+	public String getAceitoEm() {		
+		if (convite.getAceitoEm() != null) { 
+			return formatter.format(convite.getAceitoEm());
+		}
+		
+		return "";
+	}
+	
+	public String getCanceladoEm() {
+		if (convite.getCanceladoEm() != null) {
+			return formatter.format(convite.getCanceladoEm());
+		}
+		return "";
+	}
 }

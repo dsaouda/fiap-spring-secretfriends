@@ -2,7 +2,7 @@
     <template-app>
         
         <div v-if="messageSuccess" class="ui success message">
-            <i @click="fecharMessageSuccess()" class="close icon"></i>            
+            <i onclick="$(this).parent().remove()" class="close icon"></i>            
             <p>{{messageSuccess}}</p>
         </div>
 
@@ -16,19 +16,23 @@
             <div class="image content">                
                 <div class="description">
                     <div class="ui header">Evento criado por {{grupo.administrador.nome}}</div>
-                    <p>Valor do presente: {{grupo.valorPresente}}</p>
+                    <p>Valor do presente: {{grupo.valorPresente | naoInformado }}</p>
                     <p>Local: {{grupo.localEvento}}</p>
                     <p>Data Sorteio: {{grupo.dataSorteio}}</p>
                     <p>Data Evento: {{grupo.dataEvento}}</p>
-                    <p>Observação: {{grupo.observacoes}}</p>
+                    <p>Observação: {{grupo.observacoes | naoInformado }}</p>
+                    
+                    <p v-if="convite.aceitoEm" class="aceitou">Você aceitou participar do grupo em {{convite.aceitoEm}}</p>
+                    <p v-if="convite.canceladoEm" class="rejeitou">Você rejeitou participar do grupo em {{convite.canceladoEm}}</p>
                 </div>
             </div>
 
-            <div class="actions">
-                <div @click="fechar()" class="ui black deny button">
-                    Fechar
+            <div v-if="convite.aceitoEm === '' && convite.canceladoEm === ''" class="actions">
+                <div @click="rejeitar()" class="ui negative right labeled icon button">
+                    Rejeitar
+                    <i class="close icon"></i>
                 </div>
-                
+
                 <div @click="participar()" class="ui positive right labeled icon button">
                     Participar
                     <i class="checkmark icon"></i>
@@ -78,6 +82,7 @@ export default {
                 administrador: {}
             },
             convites: [],
+            convite: {},
         }
     },
    
@@ -89,25 +94,51 @@ export default {
         grupo: function() {}
     },
 
+    filters: {
+
+        naoInformado: function(value) {
+            value = $.trim(value);
+            if (value === '' || value === null || value === undefined) {
+                return 'Não informado';
+            }
+            return value;
+        },
+
+    },
+
     methods: {
         informacoes: function(convite) {
             this.grupo = { administrador: {} };
+            this.convite = convite;
             grupoService.get(this, convite.grupoUid);
             $('.ui.modal').modal('show');
         },
 
         participar: function(convite) {
-            participanteService.participar(this.grupo.uuid).then((resp) => { this.messageSuccess = `Parabéns, agora você está participando do grupo ${resp.grupo.nome}` });
-            
+            participanteService.participar(this.grupo.uuid)
+                .then((resp) => {
+                    conviteService.recebidos(this);
+                    this.messageSuccess = `Parabéns, agora você está participando do grupo ${resp.grupo.nome}`; 
+                });
         },
 
-        fecharMessageSuccess: function() {
-            $('.ui.success.message').hide();
-        },
-
-        fechar: function() {
-           $('.ui.modal').modal('hide'); 
+        rejeitar: function(convite) {
+            conviteService.rejeitar(this.grupo.uuid)
+                .then((resp) => {
+                    conviteService.recebidos(this);
+                    this.messageSuccess = 'Você rejeitou a participação ao grupo'; 
+                });
         }
     }
 }
 </script>
+
+<style scoped>
+    .rejeitou {
+        color: red;    
+    }
+
+    .aceitou {
+        color: green;
+    }
+</style>

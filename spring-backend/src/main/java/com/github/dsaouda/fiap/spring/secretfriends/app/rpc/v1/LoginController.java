@@ -41,6 +41,11 @@ public class LoginController {
 		return Response.ok(null).build();
 	}
 	
+	@PostMapping("logout")
+	public void logout() {
+		usuarioSession.remove();
+	}
+	
 	@PostMapping("cadastro")
 	public ResponseEntity<?> cadastro(@RequestBody Usuario usuario) {
 		SimpleValidation<Usuario> validation = new SimpleValidation<>(usuario);

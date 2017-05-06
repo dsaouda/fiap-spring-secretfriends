@@ -2,13 +2,13 @@
     <template-app>
 
         <div class="row">
-            <form class="ui form" :class="{error: errors}">
+            <form class="ui form" :class="{error: errors}" @submit.prevent="salvar">
 
                 <div class="field">
                     <label>Nome *</label>
                     <div class="ui left icon input big">
                         <i class="user icon"></i>
-                        <input type="text" v-model.lazy="grupo.nome" placeholder="nome do grupo">
+                        <input type="text" required v-model.lazy="grupo.nome" placeholder="nome do grupo">
                     </div>
 
                     <span v-if="errors.nome" class="ui error message">
@@ -34,7 +34,7 @@
                     <label>Data/hora do evento *</label>
                     <div class="ui left icon input big">
                         <i class="calendar icon"></i>
-                        <input type="text" v-model.lazy="grupo.dataEvento" placeholder="yyyy-MM-dd HH:mm:ss">
+                        <input type="text" v-model.lazy="grupo.dataEvento" required pattern="[0-9]{2}/[0-9]{2}/[0-9]{4} [0-9]{2}:[0-9]{2}" placeholder="dd/MM/yyyy HH:mm">
                     </div>
 
                     <span v-if="errors.dataEvento" class="ui error message">
@@ -46,7 +46,7 @@
                     <label>Data/hora do sorteio *</label>
                     <div class="ui left icon input big">
                         <i class="calendar icon"></i>
-                        <input type="text" v-model.lazy="grupo.dataSorteio" placeholder="yyyy-MM-dd HH:mm:ss">
+                        <input type="text" v-model.lazy="grupo.dataSorteio" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4} [0-9]{2}:[0-9]{2}" placeholder="dd/MM/yyyy HH:mm">
                     </div>
 
                     <span v-if="errors.dataSorteio" class="ui error message">
@@ -58,7 +58,7 @@
                     <label>Local evento *</label>
                     <div class="ui left icon input big">
                         <i class="marker icon"></i>
-                        <input type="text" v-model.lazy="grupo.localEvento" placeholder="local evento">
+                        <input type="text" required v-model.lazy="grupo.localEvento" placeholder="local evento">
                     </div>
 
                     <span v-if="errors.localEvento" class="ui error message">
@@ -78,7 +78,7 @@
                     </span>
                 </div>
 
-                <button @click.prevent="salvar()" class="ui right labeled icon button blue big">
+                <button class="ui right labeled icon button blue big">
                     <i class="right arrow icon"></i>
                     Salvar
                 </button>
@@ -96,6 +96,7 @@ export default {
     components: {
         'template-app' : Template
     },
+    
     data() {
         return {
             message: '',
@@ -105,14 +106,14 @@ export default {
     },
 
     methods: {
-        salvar: function() { 
+        salvar: function() {
             this.errors = {};
             this.message = '';
             
             grupoService.criar(this.grupo)
                 .then(response => {
                     flashMessage.set('message', 'Grupo cadastrado com sucesso');
-                    this.$router.push('/grupo');
+                    this.$router.push('/grupos');
                 }).catch(e => {
                     let error = e.data;
 

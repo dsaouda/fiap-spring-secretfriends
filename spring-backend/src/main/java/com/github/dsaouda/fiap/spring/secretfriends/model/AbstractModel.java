@@ -12,7 +12,6 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 
 @MappedSuperclass
 abstract class AbstractModel {
@@ -21,7 +20,6 @@ abstract class AbstractModel {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	protected long id;	
 	
-	@NotNull
 	@Column(nullable=false, unique=true)
 	protected String uuid;
 	

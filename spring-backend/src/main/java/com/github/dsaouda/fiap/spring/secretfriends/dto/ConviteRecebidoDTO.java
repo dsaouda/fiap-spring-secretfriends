@@ -14,25 +14,21 @@ public class ConviteRecebidoDTO {
 	
 	private String de;
 	private String email;
-	private String recebido;
+	private String recebidoEm;
 	private String grupo;
 	private String grupoUid;
+	private String aceitoEm;
+	private String canceladoEm;
 
 	public ConviteRecebidoDTO(Convite convite) {
 		de = convite.getDe().getNome();
 		email = convite.getDe().getEmail();
-		recebido = formatter.format(convite.getCriadoEm());
+		recebidoEm = formatter.format(convite.getCriadoEm());
+		
+		aceitoEm = convite.getAceitoEm() != null ? formatter.format(convite.getAceitoEm()) : "";
+		canceladoEm = convite.getCanceladoEm() != null ? formatter.format(convite.getCanceladoEm()) : "";
 		
 		Grupo grupoBusca = convite.getGrupo();
-		System.out.println("\n\n");
-		System.out.println("GRUPO: " + grupoBusca);
-		System.out.println("\n\n");
-		System.out.println("GRUPO UUID: " + grupoBusca.getUuid());
-		System.out.println("\n\n");
-		System.out.println("GRUPO ID: " + grupoBusca.getId());
-		System.out.println("\n\n");
-		System.out.println("GRUPO NOME: " + grupoBusca.getNome());
-		System.out.println("\n\n");
 		
 		grupo = grupoBusca.getNome();
 		grupoUid = grupoBusca.getUuid();
@@ -53,7 +49,7 @@ public class ConviteRecebidoDTO {
 	}
 
 	public String getRecebido() {
-		return recebido;
+		return recebidoEm;
 	}
 
 	public String getGrupo() {
@@ -63,6 +59,12 @@ public class ConviteRecebidoDTO {
 	public String getGrupoUid() {
 		return grupoUid;
 	}
-	
-	
+
+	public String getAceitoEm() {
+		return aceitoEm;
+	}
+
+	public String getCanceladoEm() {
+		return canceladoEm;
+	}
 }

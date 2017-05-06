@@ -5,6 +5,8 @@
         <a href="#" class="header item">
           <i class="users icon"></i> Amigo Secreto
         </a>
+        
+        <a href="https://github.com/dsaouda/fiap-spring-secretfriends" target="_blank" class="item">Sobre</a>
         <router-link :to="{name: 'convites'}" class="item">Convites</router-link>
         <div class="ui simple dropdown item">
           Grupos <i class="dropdown icon"></i>
@@ -19,18 +21,20 @@
     </div>
 
     <div class="ui main text container">
-      <br><br><br>
+      <br><br>
       <slot></slot>
     </div>
   </div>
 </template>
 
 <script>
-
+import { rpcOpen as $http } from '../service/http';
 export default {
     methods: {
         sair: function() {
-            console.log('sair');
+            $http.post('/login/logout').then(() => {
+                this.$router.push('/');
+            });
         }
     }  
 }
