@@ -23,7 +23,7 @@ import com.github.dsaouda.fiap.spring.secretfriends.session.UsuarioSession;
 public class AutorizacaoFilter implements Filter {
 	
 	@Autowired
-	UsuarioSession usuarioSession;
+	private UsuarioSession usuarioSession;
 	
 	@Override
 	public void destroy() {

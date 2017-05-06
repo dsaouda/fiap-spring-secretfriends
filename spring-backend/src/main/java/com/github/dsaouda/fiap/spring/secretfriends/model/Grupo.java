@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -33,13 +35,13 @@ public class Grupo extends AbstractModel  {
 	@NotNull
 	@Column(nullable=false)
 	@Temporal(TemporalType.TIMESTAMP)
-	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm", timezone="America/Sao_Paulo")
 	private Date dataSorteio;
 	
 	@NotNull
 	@Column(nullable=false)
 	@Temporal(TemporalType.TIMESTAMP)
-	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm", timezone="America/Sao_Paulo")
 	private Date dataEvento;
 	
 	@Column(nullable=true)
@@ -51,8 +53,14 @@ public class Grupo extends AbstractModel  {
 	@JoinColumn(name="usuario", nullable=false)
 	private Usuario administrador;
 	
-	@Deprecated //jpa
-	protected Grupo() {}
+	@Enumerated(EnumType.STRING)
+	@Column(nullable=false)
+	private GrupoStatusEnum status;
+	
+	//jpa
+	protected Grupo() {
+		this.status = GrupoStatusEnum.SORTEIO_NAO_REALIZADO;
+	}
 	
 	public Grupo(String nome, String localEvento, Date dataSorteio, Date dataEvento, Usuario administrador) {
 		super();
@@ -62,6 +70,8 @@ public class Grupo extends AbstractModel  {
 		this.dataSorteio = dataSorteio;
 		this.dataEvento = dataEvento;
 		this.administrador = administrador;
+		this.status = GrupoStatusEnum.SORTEIO_NAO_REALIZADO;
+		
 	}
 	
 	public String getNome() {
@@ -119,7 +129,15 @@ public class Grupo extends AbstractModel  {
 	public void setAdministrador(Usuario administrador) {
 		this.administrador = administrador;
 	}
+	
+	public GrupoStatusEnum getStatus() {
+		return status;
+	}
 
+	public void setStatus(GrupoStatusEnum status) {
+		this.status = status;
+	}
+	
 	@Override
 	public String toString() {
 		return "Grupo [nome=" + nome + ", valorPresente=" + valorPresente + ", localEvento=" + localEvento

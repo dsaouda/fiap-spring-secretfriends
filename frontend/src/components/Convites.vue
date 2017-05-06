@@ -43,6 +43,7 @@
         <table class="ui table">
             <thead>
                 <tr>
+                    <th>Grupo</th>
                     <th>De</th>
                     <th>Recebido</th>
                     <th></th>                    
@@ -50,6 +51,7 @@
             </thead>
         <tbody>
             <tr v-for="(convite, index) in convites">
+                <td>{{convite.grupo}}</td>
                 <td>{{convite.de}}</td>
                 <td>{{convite.recebido}}</td>
                 <td>
@@ -83,11 +85,13 @@ export default {
             },
             convites: [],
             convite: {},
+            modal: {},
         }
     },
    
-    created: function () {        
+    created: function () {
         conviteService.recebidos(this);
+        
     },
 
     watch: {
@@ -95,7 +99,6 @@ export default {
     },
 
     filters: {
-
         naoInformado: function(value) {
             value = $.trim(value);
             if (value === '' || value === null || value === undefined) {
@@ -106,12 +109,19 @@ export default {
 
     },
 
+    destroyed: function() {
+        //previnindo de abrir mais de um modal
+        //todo entender por que mais de um modal estava sendo aberto
+        $('.ui.modal').remove();
+    },
+
     methods: {
         informacoes: function(convite) {
+            $('.ui.modal').modal('show');
+
             this.grupo = { administrador: {} };
             this.convite = convite;
-            grupoService.get(this, convite.grupoUid);
-            $('.ui.modal').modal('show');
+            grupoService.get(this, convite.grupoUid);    
         },
 
         participar: function(convite) {

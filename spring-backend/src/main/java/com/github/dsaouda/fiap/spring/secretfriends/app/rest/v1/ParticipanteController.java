@@ -25,10 +25,10 @@ import com.github.dsaouda.fiap.spring.secretfriends.session.UsuarioSession;
 public class ParticipanteController {
 
 	@Autowired
-	ParticipanteService service;
+	private ParticipanteService service;
 	
 	@Autowired
-	UsuarioSession usuarioSession;
+	private UsuarioSession usuarioSession;
 	
 	@PostMapping
 	public Participante participar(@RequestBody Map<String, String> req) {

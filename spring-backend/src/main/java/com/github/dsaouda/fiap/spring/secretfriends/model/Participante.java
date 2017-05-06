@@ -48,4 +48,10 @@ public class Participante extends AbstractModel {
 	public void setAmigoSecreto(Usuario amigoSecreto) {
 		this.amigoSecreto = amigoSecreto;
 	}
+
+	@Override
+	public String toString() {
+		return "Participante [participante=" + participante + ", amigoSecreto=" + amigoSecreto + ", grupo=" + grupo
+				+ "]";
+	}
 }

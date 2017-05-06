@@ -32,13 +32,13 @@ import com.github.dsaouda.fiap.spring.secretfriends.session.UsuarioSession;
 public class GrupoController {
 
 	@Autowired
-	GrupoRepository repository;
+	private GrupoRepository repository;
 	
 	@Autowired
-	GrupoService service;
+	private GrupoService service;
 	
 	@Autowired
-	UsuarioSession usuarioSession;
+	private UsuarioSession usuarioSession;
 	
 	@GetMapping("/{uuid}")
 	public ResponseEntity<?> get(@PathVariable("uuid") String uuid) {		

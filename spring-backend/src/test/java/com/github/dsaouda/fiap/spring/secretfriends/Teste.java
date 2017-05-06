@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.github.dsaouda.fiap.spring.secretfriends.model.Convite;
+import com.github.dsaouda.fiap.spring.secretfriends.model.Grupo;
 import com.github.dsaouda.fiap.spring.secretfriends.repository.ConviteRepository;
 import com.github.dsaouda.fiap.spring.secretfriends.repository.GrupoRepository;
 
@@ -18,19 +19,19 @@ import com.github.dsaouda.fiap.spring.secretfriends.repository.GrupoRepository;
 public class Teste {
 	
 	@Autowired
-	GrupoRepository grupoRepo;
+	private GrupoRepository grupoRepo;
 	
 	@Autowired
-	ConviteRepository conviteRepo;
+	private ConviteRepository conviteRepo;
 	
 	@Test
     public void abc() throws Exception {	
-		//Grupo grupo = grupoRepo.findByUuid("ab864126-827d-4e76-9b09-adf4c3853ff6");
+		Grupo grupo = grupoRepo.findByUuid("ab864126-827d-4e76-9b09-adf4c3853ff6");
 		
-		//System.out.println("\ngrupo: " + grupo);
-		//System.out.println("\ngrupo id: " + grupo.getId());
-		//System.out.println("\ngrupo uuid: " + grupo.getUuid());
-		//System.out.println("\nadm: " + grupo.getAdministrador());
+		System.out.println("\ngrupo: " + grupo);
+		System.out.println("\ngrupo id: " + grupo.getId());
+		System.out.println("\ngrupo uuid: " + grupo.getUuid());
+		System.out.println("\nadm: " + grupo.getAdministrador());
 		
 		Convite convite = conviteRepo.findOne(1L);
 		System.out.println("convite: " + convite);

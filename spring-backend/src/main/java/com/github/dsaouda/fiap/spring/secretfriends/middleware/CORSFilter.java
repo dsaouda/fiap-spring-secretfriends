@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 public class CORSFilter implements Filter {
 	
 	@Autowired
-	Environment env;
+	private Environment env;
 	
     public CORSFilter() {
     }

@@ -2,7 +2,6 @@ package com.github.dsaouda.fiap.spring.secretfriends.app.rest.v1;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +28,7 @@ import com.github.dsaouda.fiap.spring.secretfriends.validator.SimpleValidation;
 public class UsuarioController {
 
 	@Autowired
-	HttpSession session;
-	
-	@Autowired
-	UsuarioRepository repository;
+	private UsuarioRepository repository;
 
 	@GetMapping("/{uuid}")
 	public ResponseEntity<Usuario> get(@PathVariable("uuid") String uuid) {

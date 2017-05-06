@@ -40,14 +40,18 @@ public class GrupoDTO {
 		return grupo.getLocalEvento();
 	}
 
-	@JsonFormat(pattern="dd/MM/yyyy HH:mm")
+	@JsonFormat(pattern="dd/MM/yyyy HH:mm", timezone="America/Sao_Paulo")
 	public Date getDataSorteio() {
 		return grupo.getDataSorteio();
 	}
 
-	@JsonFormat(pattern="dd/MM/yyyy HH:mm")
+	@JsonFormat(pattern="dd/MM/yyyy HH:mm", timezone="America/Sao_Paulo")
 	public Date getDataEvento() {
 		return grupo.getDataEvento();
+	}
+	
+	public String getStatus() {
+		return grupo.getStatus().name();
 	}
 
 	public String getObservacoes() {

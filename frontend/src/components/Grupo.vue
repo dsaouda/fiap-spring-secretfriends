@@ -23,6 +23,7 @@
                     <th>Valor</th>
                     <th>Local</th>
                     <th>Observações</th>
+                    <th>Status</th>
                 </tr>
             </thead>
         <tbody>
@@ -38,6 +39,7 @@
                 <td>{{grupo.valor | empty}}</td>
                 <td>{{grupo.localEvento}}</td>
                 <td>{{grupo.observacoes | empty}}</td>
+                <td v-html="$options.filters.status(grupo.status)"></td>
             </tr>
         </tbody>
         </table>
@@ -64,6 +66,21 @@ export default {
         empty: function(value) {
             if (!value) return '-';
             return value;
+        },
+
+        status: function(value) {
+            if (value === 'SORTEIO_SUCESSO') {
+                return '<span class="sucesso">sorteio realizado</span>';
+            }
+
+            if (value === 'SORTEIO_FALHA') {
+                return '<span class="falha" title="sorteio realizado com falha, provavelmente ninguém estava participando do grupo">falha [?]</span>';
+            }
+
+            if (value === 'SORTEIO_NAO_REALIZADO') {
+                return '<span class="alerta">sorteio não realizado</span>';
+            }
+
         }
     },
    
@@ -78,3 +95,17 @@ export default {
     }
 }
 </script>
+
+<style>
+    .sucesso {
+        color: green;
+    }
+
+    .falha {
+        color: red;
+    }
+
+    .alerta {
+        color: orange;
+    }
+</style>

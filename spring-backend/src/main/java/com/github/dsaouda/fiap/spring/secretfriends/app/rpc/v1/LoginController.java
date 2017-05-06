@@ -24,10 +24,10 @@ import com.github.dsaouda.fiap.spring.secretfriends.validator.SimpleValidation;
 public class LoginController {
 
 	@Autowired
-	UsuarioRepository repository;
+	private UsuarioRepository repository;
 	
 	@Autowired 
-	UsuarioSession usuarioSession;
+	private UsuarioSession usuarioSession;
 	
 	@PostMapping
 	public ResponseEntity<Map<String, Object>> login(@RequestBody Request request) {

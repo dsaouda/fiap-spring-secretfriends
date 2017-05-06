@@ -54,11 +54,11 @@
                         <td>{{convite.para}} ({{convite.email}})</td>
                         <td>{{convite.em}}</td>
                         <td>
-                            <span v-if="convite.aceitoEm">
+                            <span class="aceitou" v-if="convite.aceitoEm">
                                 Aceito em {{convite.aceitoEm}}
                             </span>
 
-                            <span v-else-if="convite.canceladoEm">
+                            <span class="rejeitou" v-else-if="convite.canceladoEm">
                                 Rejeitado em {{convite.canceladoEm}}
                             </span>
 
@@ -132,3 +132,13 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+    .rejeitou {
+        color: red;    
+    }
+
+    .aceitou {
+        color: green;
+    }
+</style>
