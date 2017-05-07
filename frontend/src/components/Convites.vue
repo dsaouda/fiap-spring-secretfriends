@@ -6,8 +6,18 @@
             <p>{{messageSuccess}}</p>
         </div>
 
-        <h2>Convites recebidos</h2>
+        <h2>Convites</h2>
         
+        <div class="ui form">
+            <div class="field">
+                <select v-model.lazy="filtro">
+                    <option value="aguardando">Aguardando</option>
+                    <option value="cancelados">Cancelados</option>
+                    <option value="aprovados">Aprovados</option>
+                </select>
+            </div>
+        </div>    
+
         <div class="ui modal">
             <i class="close icon"></i>
             <div class="header">
@@ -27,7 +37,7 @@
                 </div>
             </div>
 
-            <div v-if="convite.aceitoEm === '' && convite.canceladoEm === ''" class="actions">
+            <div v-if="convite.aceitoEm === '' && convite.canceladoEm === '' && grupo.status === 'SORTEIO_NAO_REALIZADO'" class="actions">
                 <div @click="rejeitar()" class="ui negative right labeled icon button">
                     Rejeitar
                     <i class="close icon"></i>
@@ -49,18 +59,18 @@
                     <th></th>                    
                 </tr>
             </thead>
-        <tbody>
-            <tr v-for="(convite, index) in convites">
-                <td>{{convite.grupo}}</td>
-                <td>{{convite.de}}</td>
-                <td>{{convite.recebido}}</td>
-                <td>
-                    <a href="#" title="informações do grupo" @click.prevent="informacoes(convite)">
-                        <i class="newspaper icon"></i>
-                    </a>                   
-                </td>
-            </tr>
-        </tbody>
+            <tbody>
+                <tr v-for="(convite, index) in convites" v-if="mostrarConformeFiltro(convite)">
+                    <td>{{convite.grupo}}</td>
+                    <td>{{convite.de}}</td>
+                    <td>{{convite.recebido}}</td>
+                    <td>
+                        <a href="#" title="informações do grupo" @click.prevent="informacoes(convite)">
+                            <i class="newspaper icon"></i>
+                        </a>                   
+                    </td>
+                </tr>
+            </tbody>
         </table>
 
     </template-app>
@@ -79,6 +89,7 @@ export default {
     
     data() {
         return {
+            filtro: 'aguardando',
             messageSuccess: '',
             grupo: {
                 administrador: {}
@@ -116,6 +127,23 @@ export default {
     },
 
     methods: {
+        mostrarConformeFiltro: function(convite) {
+            switch(this.filtro) {
+                case 'aguardando':
+                    return convite.canceladoEm === '' && convite.aceitoEm === '' ? true : false;
+
+                case 'cancelados':
+                    return convite.canceladoEm ? true : false; 
+                    
+                case 'aprovados': 
+                    return convite.aceitoEm ? true : false;
+                    
+
+                default: 
+                    return false; 
+            }
+        },
+
         informacoes: function(convite) {
             $('.ui.modal').modal('show');
 

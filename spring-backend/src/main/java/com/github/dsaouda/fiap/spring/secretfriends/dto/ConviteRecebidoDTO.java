@@ -1,6 +1,7 @@
 package com.github.dsaouda.fiap.spring.secretfriends.dto;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -19,6 +20,10 @@ public class ConviteRecebidoDTO {
 	private String grupoUid;
 	private String aceitoEm;
 	private String canceladoEm;
+	private String dataEvento;
+	private String dataSorteio;
+	private boolean isSorteioRealizado;
+	private boolean isEventoJaOcorreu;
 
 	public ConviteRecebidoDTO(Convite convite) {
 		de = convite.getDe().getNome();
@@ -28,10 +33,14 @@ public class ConviteRecebidoDTO {
 		aceitoEm = convite.getAceitoEm() != null ? formatter.format(convite.getAceitoEm()) : "";
 		canceladoEm = convite.getCanceladoEm() != null ? formatter.format(convite.getCanceladoEm()) : "";
 		
-		Grupo grupoBusca = convite.getGrupo();
+		Grupo grupoInfo = convite.getGrupo();
 		
-		grupo = grupoBusca.getNome();
-		grupoUid = grupoBusca.getUuid();
+		dataEvento = formatter.format(grupoInfo.getDataEvento());
+		dataSorteio = formatter.format(grupoInfo.getDataSorteio());
+		isSorteioRealizado = grupoInfo.getDataSorteio().compareTo(new Date()) <= 0;
+		isEventoJaOcorreu = grupoInfo.getDataEvento().compareTo(new Date()) <= 0;
+		grupo = grupoInfo.getNome();
+		grupoUid = grupoInfo.getUuid();
 	}
 	
 	public static List<ConviteRecebidoDTO> toDTO(Iterable<Convite> convites) {
@@ -67,4 +76,20 @@ public class ConviteRecebidoDTO {
 	public String getCanceladoEm() {
 		return canceladoEm;
 	}
+
+	public String getDataEvento() {
+		return dataEvento;
+	}
+
+	public String getDataSorteio() {
+		return dataSorteio;
+	}
+
+	public boolean isSorteioRealizado() {
+		return isSorteioRealizado;
+	}
+
+	public boolean isEventoJaOcorreu() {
+		return isEventoJaOcorreu;
+	}	
 }

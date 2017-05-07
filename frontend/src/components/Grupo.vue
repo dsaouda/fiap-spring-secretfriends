@@ -8,6 +8,21 @@
             <p>{{message}}</p>
         </div>
         
+        <div class="ui form">
+            <div class="field">
+                <select v-model.lazy="filtro">
+                    <option value="TODOS">Todos</option>
+                    <option value="SORTEIO_NAO_REALIZADO">Sorteio não realizado</option>
+                    <option value="SORTEIO_SUCESSO">Sorteio realizado</option>
+                    <option value="SORTEIO_FALHA">Sorteio falhou</option>
+                    <option value="EVENTO_VAI_OCORRER">Evento que vai ocorrer</option>
+                    <option value="EVENTO_OCORREU">Evento que já ocorreu</option>
+                </select>
+            </div>
+        </div>
+        
+        <br>
+
         <router-link to="grupo/cadastro" class="ui labeled icon button">
             <i class="file icon"></i>
             Novo grupo
@@ -27,7 +42,7 @@
                 </tr>
             </thead>
         <tbody>
-            <tr v-for="(grupo, index) in grupos">
+            <tr v-for="(grupo, index) in grupos" v-if="mostrarConformeFiltro(grupo)">
                 <td>
                     <router-link title="convidar" :to="querystring(grupo)">
                         <i class="announcement icon"></i>
@@ -57,6 +72,7 @@ export default {
     },
     data() {
         return {
+            filtro: 'TODOS',
             grupos: [],
             message: ''
         }
@@ -89,6 +105,32 @@ export default {
         grupoService.getAll(this);
     },
     methods: {
+
+        mostrarConformeFiltro: function(grupo) {
+            switch(this.filtro) {
+                case 'TODOS':
+                    return true;
+
+                case 'SORTEIO_NAO_REALIZADO':
+                    return grupo.status === this.filtro;
+                    
+                case 'SORTEIO_SUCESSO': 
+                    return grupo.status === this.filtro;
+
+                case 'SORTEIO_FALHA': 
+                    return grupo.status === this.filtro;
+
+                case 'EVENTO_VAI_OCORRER': 
+                    return grupo.eventoOcorreu == false ? true : false;
+
+                case 'EVENTO_OCORREU': 
+                    return grupo.eventoOcorreu == true ? true : false;
+
+                default: 
+                    return false; 
+            }
+        },
+
         querystring: function(grupo) {
             return 'convidar?uuid=' + grupo.uuid
         }

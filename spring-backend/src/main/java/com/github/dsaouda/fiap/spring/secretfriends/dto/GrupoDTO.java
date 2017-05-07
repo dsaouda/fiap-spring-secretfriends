@@ -50,6 +50,10 @@ public class GrupoDTO {
 		return grupo.getDataEvento();
 	}
 	
+	public boolean isEventoOcorreu() {
+		return grupo.getDataEvento().compareTo(new Date()) <= 0 ? true : false;
+	}
+	
 	public String getStatus() {
 		return grupo.getStatus().name();
 	}

@@ -1,5 +1,7 @@
 <template>
     <template-app>
+        
+        <h2>Novo Grupo</h2>
 
         <div class="row">
             <form class="ui form" :class="{error: errors}" @submit.prevent="salvar">
@@ -36,6 +38,10 @@
                         <i class="calendar icon"></i>
                         <input type="text" v-model.lazy="grupo.dataEvento" required pattern="[0-9]{2}/[0-9]{2}/[0-9]{4} [0-9]{2}:[0-9]{2}" placeholder="dd/MM/yyyy HH:mm">
                     </div>
+                    
+                    <span v-if="errors.dataEventoMaiorQueDataSorteio" class="ui error message">
+                        {{ errors.dataEventoMaiorQueDataSorteio.message }}
+                    </span>
 
                     <span v-if="errors.dataEvento" class="ui error message">
                         {{ errors.dataEvento.message }}

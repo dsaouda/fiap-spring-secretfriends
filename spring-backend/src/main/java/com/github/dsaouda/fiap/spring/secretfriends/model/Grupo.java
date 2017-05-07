@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -36,12 +38,14 @@ public class Grupo extends AbstractModel  {
 	@Column(nullable=false)
 	@Temporal(TemporalType.TIMESTAMP)
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm", timezone="America/Sao_Paulo")
+	@Future(message="Valor precisa estar no futuro")
 	private Date dataSorteio;
 	
 	@NotNull
 	@Column(nullable=false)
 	@Temporal(TemporalType.TIMESTAMP)
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm", timezone="America/Sao_Paulo")
+	@Future(message="Valor precisa estar no futuro")
 	private Date dataEvento;
 	
 	@Column(nullable=true)
@@ -136,6 +140,15 @@ public class Grupo extends AbstractModel  {
 
 	public void setStatus(GrupoStatusEnum status) {
 		this.status = status;
+	}
+	
+	public boolean isEventoOcorreu() {
+		return dataEvento.compareTo(new Date()) <= 0 ? true : false;
+	}
+	
+	@AssertTrue(message="A data do evento tem que ser maior que a data do sorteio")
+	public boolean isDataEventoMaiorQueDataSorteio() {
+		return dataEvento.compareTo(dataSorteio) > 0;
 	}
 	
 	@Override
