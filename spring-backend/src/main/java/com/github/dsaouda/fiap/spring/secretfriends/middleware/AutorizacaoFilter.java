@@ -39,16 +39,11 @@ public class AutorizacaoFilter implements Filter {
 		
 		String requestURI = request.getServletPath();
 		
-		if (requestURI.indexOf("open/") != -1) {
-			chain.doFilter(req, res);
-			return ;
-		}
-		
-		System.out.println(usuarioSession);
-		
-		if (usuarioSession.getId() == null) {
-			response.setStatus(HttpStatus.FORBIDDEN.value());
-			return ;
+		if (requestURI.startsWith("/rpc/") || requestURI.startsWith("/rest/")) {
+			if (usuarioSession.getId() == null) {
+				response.setStatus(HttpStatus.FORBIDDEN.value());
+				return ;
+			}
 		}
 		
 		chain.doFilter(req, res);
