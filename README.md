@@ -4,6 +4,10 @@
 
 Projeto realizado utilizando spring mvc com spring boot. O objetivo do spring boot é prover um servidor auto embutido, facilitando o desenvolvimento e testes por terceiro, dessa forma basta executar o método main e o projeto já deve estar funcionando.
 
+### motivo da escolha
+
+A escolha da stack foi feita com base em pesquisa na web e mostra-se que spring mvc + spring boot é uns dos projetos mais utilizados na atualidade, com uma documentação bem completa e diversos artigos na internet com exemplos de utilização do framework.
+
 ### vuejs (frontend)
 
 Para desenvolvimento do frontend foi utilizado vuejs (vuejs.org). Uma forma elegante e simples de desacoplar o frontend do backend, já que o backend está feito todo baseado em api.
@@ -21,7 +25,7 @@ As tabelas do banco serão criadas automaticamente pelo JPA.
 
 ## Executando o projeto
 
-Para testar o projeto basta executar o método main que está localizado em `com.github.dsaouda.iap.spring.secretfriends.App`
+Para testar o projeto basta executar o método main que está localizado em `com.github.dsaouda.fiap.spring.secretfriends.App`
 
 Após execução basta acessar o navegador através do endereço http://localhost:8092/
 
