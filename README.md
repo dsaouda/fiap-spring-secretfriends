@@ -32,3 +32,7 @@ Após execução basta acessar o navegador através do endereço http://localhos
 ## Usando o sistema
 
 [Clique aqui](https://github.com/dsaouda/fiap-spring-secretfriends/blob/master/docs/USANDO_SISTEMA.md) para maiores informações de como usar o sistema
+
+## Pacotes dos sistema
+
+Para maiores informações sobre como o sistema está dividido [acesse aqui](https://github.com/dsaouda/fiap-spring-secretfriends/blob/master/spring-backend/README.md)
